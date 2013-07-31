@@ -7,7 +7,8 @@ class Post(models.Model):
 	content = models.TextField()
 	creation_date = models.DateTimeField(auto_now_add=True)    
 	def __unicode__(self):
-		return self.title
+		return self.content
+
 
 class Comment(models.Model):
 	user = models.ForeignKey(User)
@@ -16,4 +17,3 @@ class Comment(models.Model):
 	creation_date = models.DateTimeField(auto_now_add=True) 
 	def __unicode__(self):
 		return self.content
-

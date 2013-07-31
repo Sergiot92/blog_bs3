@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
-from post.models import Post
+from post.models import Post, Comment
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -74,16 +74,16 @@ def new_post(request):
 		return HttpResponseRedirect('/')
 
 def post(request):
-	try:
-		postPk = request.GET['pk']
-		post = Post.objects.get(pk=postPk)
-		comments = Comment.objects.filter(post=post)
-		if request.method == 'POST':
-			title = request.POST['title']
-			content = request.POST['content']
-			Post.objects.create(user=user,title=title,content=content)
-			return HttpResponseRedirect('/')
-		return render_to_response('post.html',{'post':post,'comments':comments}, context_instance=RequestContext(request))
-	except Exception:
-		return HttpResponseRedirect('/')
+	#try:
+	postPk = request.GET['pk']
+	post = Post.objects.get(pk=postPk)
+	comments = Comment.objects.filter(post=post)
+	if request.method == 'POST':
+		content = request.POST['comment']
+		user = request.user
+		Comment.objects.create(user=user, content=content, post=post)
+		return HttpResponseRedirect('/post?pk='+str(postPk))
+	return render_to_response('post.html',{'post':post,'comments':comments}, context_instance=RequestContext(request))
+	#except Exception:
+	#	return HttpResponseRedirect('/')
 
