@@ -30,7 +30,7 @@
 					{% else %}
 					<li class="navbar-text">Welcome, {{ user }} </li>
 					{% if user.is_superuser %}
-						<li><a href="#">New Post</a></li>
+						<li><a href="{% url 'new_post' %}">New Post</a></li>
 					{% endif %}
 					<li><a href="{% url 'log_out' %}">Log out</a></li>
 					{% endif %}

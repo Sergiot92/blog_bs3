@@ -60,3 +60,15 @@ def log_in(request):
 def log_out(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+def new_post(request):
+	user = request.user
+	if user.is_superuser:
+		if request.method == 'POST':
+			title = request.POST['title']
+			content = request.POST['content']
+			Post.objects.create(user=user,title=title,content=content)
+			return HttpResponseRedirect('/')
+		return render_to_response('new_post.html', context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect('/')
