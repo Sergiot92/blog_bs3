@@ -72,3 +72,18 @@ def new_post(request):
 		return render_to_response('new_post.html', context_instance=RequestContext(request))
 	else:
 		return HttpResponseRedirect('/')
+
+def post(request):
+	try:
+		postPk = request.GET['pk']
+		post = Post.objects.get(pk=postPk)
+		comments = Comment.objects.filter(post=post)
+		if request.method == 'POST':
+			title = request.POST['title']
+			content = request.POST['content']
+			Post.objects.create(user=user,title=title,content=content)
+			return HttpResponseRedirect('/')
+		return render_to_response('post.html',{'post':post,'comments':comments}, context_instance=RequestContext(request))
+	except Exception:
+		return HttpResponseRedirect('/')
+

@@ -11,11 +11,9 @@ class Post(models.Model):
 
 class Comment(models.Model):
 	user = models.ForeignKey(User)
+	post = models.ForeignKey(Post)
 	content = models.TextField()
 	creation_date = models.DateTimeField(auto_now_add=True) 
 	def __unicode__(self):
 		return self.content
 
-class Post_Comment(models.Model):
-	post = models.ForeignKey(Post)
-	comment = models.ForeignKey(Comment)
