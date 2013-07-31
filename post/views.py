@@ -43,6 +43,20 @@ def sign_up(request):
 			return render_to_response('sign_up.html', {'msgError':msgError}, context_instance=RequestContext(request))
 	return render_to_response('sign_up.html', context_instance=RequestContext(request))
 
+def log_in(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		access = authenticate(username=username, password=password)
+		if access is not None:
+			login(request, access)					
+			return HttpResponseRedirect('/')
+		else:
+			msgError = 'User or password incorret'
+			return render_to_response('log_in.html',{'msgError':msgError}, context_instance=RequestContext(request))
+	else:
+		return render_to_response('log_in.html', context_instance=RequestContext(request))
+
 def log_out(request):
 	logout(request)
 	return HttpResponseRedirect('/')

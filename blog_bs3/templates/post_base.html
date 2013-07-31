@@ -25,11 +25,13 @@
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					{% if user.is_anonymous %}
-					<li><a href="#">Log in</a></li>
+					<li><a href="{% url 'log_in' %}">Log in</a></li>
 					<li><a href="{% url 'sign_up' %}">Sign up</a></li>
 					{% else %}
 					<li class="navbar-text">Welcome, {{ user }} </li>
-					<li><a href="#">New Post</a></li>
+					{% if user.is_superuser %}
+						<li><a href="#">New Post</a></li>
+					{% endif %}
 					<li><a href="{% url 'log_out' %}">Log out</a></li>
 					{% endif %}
 				</ul>
